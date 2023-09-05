@@ -14,11 +14,13 @@ public class StartApp {
         try {
             session.beginTransaction();
 
-            Person person = new Person("Oleg", 14, "asd@mail.ru", "Russia, Moscow, 123456");
+            Person person = new Person("Kina", 44, "ewq@mail.ru", "Russia, Moscow, 123456");
 
             session.save(person);
 
             session.getTransaction().commit();
+
+            System.out.println(person.getId());
         } finally {
             sessionFactory.close();
         }
