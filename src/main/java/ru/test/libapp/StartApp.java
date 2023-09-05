@@ -25,8 +25,13 @@ public class StartApp {
 
             Item item = session.get(Item.class, 1);
 
+            // КЕШ
+            item.getOwner().getItems().remove(item);
+
+            // SQL
             item.setOwner(person);
 
+            // КЕШ
             person.getItems().add(item);
 
             session.getTransaction().commit();
