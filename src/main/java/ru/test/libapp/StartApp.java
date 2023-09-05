@@ -5,6 +5,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import ru.test.libapp.models.Person;
 
+import java.util.List;
+
 public class StartApp {
     public static void main(String[] args) {
         Configuration configuration = new Configuration().addAnnotatedClass(Person.class);
@@ -14,13 +16,11 @@ public class StartApp {
         try {
             session.beginTransaction();
 
-            Person person = new Person("Kina", 44, "ewq@mail.ru", "Russia, Moscow, 123456");
-
-            session.save(person);
+            List<Person> personList = session.createQuery("FROM Person").getResultList();
+            personList.forEach(System.out::println);
 
             session.getTransaction().commit();
 
-            System.out.println(person.getId());
         } finally {
             sessionFactory.close();
         }
