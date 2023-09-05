@@ -14,9 +14,9 @@ public class StartApp {
         try {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 1);
+            Person person = new Person("Oleg", 14, "asd@mail.ru", "Russia, Moscow, 123456");
 
-            session.delete(person);
+            session.save(person);
 
             session.getTransaction().commit();
         } finally {
