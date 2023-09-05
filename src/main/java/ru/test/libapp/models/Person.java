@@ -81,6 +81,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Id = " + id + ", name = " + getName() + ", email = " + getEmail() + ", address = " + getAddress() + ".";
+        return "Id = " + id + ", name = " + getName() + ", age = " + getAge() + ", email = " + getEmail() + ", address = " + getAddress() + ".";
     }
 }
