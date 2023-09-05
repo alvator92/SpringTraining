@@ -1,9 +1,6 @@
 package ru.test.libapp.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
@@ -11,6 +8,7 @@ import javax.validation.constraints.*;
 public class Person {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name")
     @NotEmpty(message = "Name should not be Empty")
@@ -34,8 +32,7 @@ public class Person {
 
     }
 
-    public Person(int id, String name, int age, String email, String address) {
-        this.id = id;
+    public Person(String name, int age, String email, String address) {
         this.name = name;
         this.age = age;
         this.email = email;

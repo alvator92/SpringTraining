@@ -22,15 +22,4 @@ public class BatchController {
         return "batch/index";
     }
 
-    @GetMapping("/without")
-    public String withutBatch() {
-        personDao.testMultipleUpdate();
-        return "redirect:/people";
-    }
-
-    @GetMapping("/with")
-    public String withBatch() {
-        personDao.testBatchUpdate();
-        return "redirect:/people";
-    }
 }
