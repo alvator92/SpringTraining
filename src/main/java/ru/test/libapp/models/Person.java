@@ -2,6 +2,7 @@ package ru.test.libapp.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Entity
 @Table(name = "person")
@@ -21,12 +22,14 @@ public class Person {
     @NotEmpty(message = "Email should not be empty")
     @Email(message = "Email should be valid")
     private String email;
-
     // Страна, Город, индекс (6 цифр)
     // Russia, Moscow, 123456
     @Column(name = "address")
-    @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}", message = "Your adress should be in this formatt - Russia, Moscow, 123456")
+    @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}", message = "Your adress should be in this format - Russia, Moscow, 123456")
     private String address;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Item> items;
 
     public Person() {
 
@@ -79,8 +82,16 @@ public class Person {
         this.address = address;
     }
 
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
     @Override
     public String toString() {
-        return "Id = " + id + ", name = " + getName() + ", age = " + getAge() + ", email = " + getEmail() + ", address = " + getAddress() + ".";
+        return "Id = " + id + ", name = " + getName() + ", age = " + getAge() + ", email = " + getEmail() + ", address = " + getAddress() + ", Items = " + items;
     }
 }
