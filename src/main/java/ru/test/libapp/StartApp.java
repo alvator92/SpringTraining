@@ -19,11 +19,10 @@ public class StartApp {
         try {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 1);
+            Item item = session.get(Item.class, 3);
+            System.out.println(item);
 
-            List<Item> items = person.getItems();
-
-            System.out.println(items);
+            Person person = item.getOwner();
             System.out.println(person);
 
             session.getTransaction().commit();
