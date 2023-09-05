@@ -21,17 +21,12 @@ public class StartApp {
         try {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 5);
+            Person person = session.get(Person.class, 1);
 
-            List<Item> items = person.getItems();
+            session.remove(person);
 
-            // SQL -  удаляет инфу из БД
-            for(Item item : items) {
-                session.remove(item);
-            }
-
-            // после удаления Item из таблицы необходимо удалить данные из КЭШ-а хибернайта
-            person.getItems().clear();
+            // было правильное состояние КЕШа
+            person.getItems().forEach(i -> {i.setOwner(null);});
 
             session.getTransaction().commit();
 
