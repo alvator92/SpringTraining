@@ -16,7 +16,7 @@ public class StartApp {
         try {
             session.beginTransaction();
 
-            List<Person> personList = session.createQuery("FROM Person WHERE age > 33").getResultList();
+            List<Person> personList = session.createQuery("FROM Person WHERE name LIKE 'V%'").getResultList();
             personList.forEach(System.out::println);
 
             session.getTransaction().commit();
