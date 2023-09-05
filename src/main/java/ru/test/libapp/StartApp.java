@@ -21,16 +21,17 @@ public class StartApp {
         try {
             session.beginTransaction();
 
-            Person person = new Person("Name", 41, "newEm@mail.ee", "Russia, NSK, 123456");
+            Person person = session.get(Person.class, 5);
 
-            // owner side
-            Item item = new Item("Ipad", person);
+            List<Item> items = person.getItems();
 
-            // хорошая практика
-            person.setItems(new ArrayList<>(Collections.singleton(item)));
+            // SQL -  удаляет инфу из БД
+            for(Item item : items) {
+                session.remove(item);
+            }
 
-            session.save(person);
-            session.save(item);
+            // после удаления Item из таблицы необходимо удалить данные из КЭШ-а хибернайта
+            person.getItems().clear();
 
             session.getTransaction().commit();
 
