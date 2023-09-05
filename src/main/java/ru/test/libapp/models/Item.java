@@ -24,6 +24,11 @@ public class Item {
         this.itemName = itemName;
     }
 
+    public Item(String item_from_hibernate, Person person) {
+        this.itemName = item_from_hibernate;
+        this.owner = person;
+    }
+
     public int getId() {
         return id;
     }

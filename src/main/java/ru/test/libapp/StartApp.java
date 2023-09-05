@@ -19,11 +19,17 @@ public class StartApp {
         try {
             session.beginTransaction();
 
-            Item item = session.get(Item.class, 3);
-            System.out.println(item);
+            Person person = session.get(Person.class, 4);
 
-            Person person = item.getOwner();
-            System.out.println(person);
+            Item newItem = new Item("Item from HIBERNATE", person);
+
+            // Хорошим тоном считается когда отношение выстраивается с двух сторон
+            // В КЕШ-е hibernate добавляется информация о том что мы добавили новый объект
+            // Это гарантирует консистентность данных
+            // Однако это никак не влияет на БД
+            person.getItems().add(newItem);
+
+            session.save(newItem);
 
             session.getTransaction().commit();
 
