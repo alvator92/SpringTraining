@@ -13,10 +13,11 @@ public class StartApp {
         Session session = sessionFactory.getCurrentSession();
         try {
             session.beginTransaction();
+
             Person person = session.get(Person.class, 1);
-            System.out.println(person.getName());
-            System.out.println(person.getEmail());
-            System.out.println(person.getAddress());
+
+            person.setName("Vlad");
+
             session.getTransaction().commit();
         } finally {
             sessionFactory.close();
