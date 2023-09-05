@@ -16,8 +16,7 @@ public class StartApp {
         try {
             session.beginTransaction();
 
-            List<Person> personList = session.createQuery("FROM Person WHERE name LIKE 'V%'").getResultList();
-            personList.forEach(System.out::println);
+            session.createQuery("UPDATE Person SET name='Test' WHERE age < 44").executeUpdate();
 
             session.getTransaction().commit();
 
