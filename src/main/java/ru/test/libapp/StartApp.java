@@ -6,6 +6,8 @@ import org.hibernate.cfg.Configuration;
 import ru.test.libapp.models.Item;
 import ru.test.libapp.models.Person;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class StartApp {
@@ -19,17 +21,16 @@ public class StartApp {
         try {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 4);
+            Person person = new Person("Name", 41, "newEm@mail.ee", "Russia, NSK, 123456");
 
-            Item newItem = new Item("Item from HIBERNATE", person);
+            // owner side
+            Item item = new Item("Ipad", person);
 
-            // Хорошим тоном считается когда отношение выстраивается с двух сторон
-            // В КЕШ-е hibernate добавляется информация о том что мы добавили новый объект
-            // Это гарантирует консистентность данных
-            // Однако это никак не влияет на БД
-            person.getItems().add(newItem);
+            // хорошая практика
+            person.setItems(new ArrayList<>(Collections.singleton(item)));
 
-            session.save(newItem);
+            session.save(person);
+            session.save(item);
 
             session.getTransaction().commit();
 
