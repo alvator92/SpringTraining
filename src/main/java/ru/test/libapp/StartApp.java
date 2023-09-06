@@ -3,7 +3,9 @@ package ru.test.libapp;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import ru.test.libapp.models.Actor;
 import ru.test.libapp.models.Item;
+import ru.test.libapp.models.Movie;
 import ru.test.libapp.models.Person;
 
 import java.util.ArrayList;
@@ -14,30 +16,34 @@ public class StartApp {
     public static void main(String[] args) {
         Configuration configuration = new Configuration()
                 .addAnnotatedClass(Person.class)
-                .addAnnotatedClass(Item.class);
+                .addAnnotatedClass(Item.class)
+                .addAnnotatedClass(Actor.class)
+                .addAnnotatedClass(Movie.class);
 
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
-        try {
+
+        //try with resources
+        try (sessionFactory) {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 6);
+            Movie newMovie = new Movie("Pulp Fiction", 1993);
+            Actor actor1 = new Actor("Harvey", 81);
+            Actor actor2 = new Actor("Samuel", 72);
 
-            Item item = session.get(Item.class, 1);
+            // Arrays.asList()
+            newMovie.setActors(new ArrayList<>(List.of(actor1, actor2)));
 
-            // КЕШ
-            item.getOwner().getItems().remove(item);
+            actor1.setMovies(new ArrayList<>(Collections.singletonList(newMovie)));
+            actor2.setMovies(new ArrayList<>(Collections.singletonList(newMovie)));
 
-            // SQL
-            item.setOwner(person);
+            session.save(newMovie);
 
-            // КЕШ
-            person.getItems().add(item);
+            session.save(actor1);
+            session.save(actor2);
 
             session.getTransaction().commit();
 
-        } finally {
-            sessionFactory.close();
         }
     }
 }
