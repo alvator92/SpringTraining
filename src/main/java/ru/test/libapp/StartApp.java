@@ -1,5 +1,6 @@
 package ru.test.libapp;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -27,13 +28,19 @@ public class StartApp {
         try (sessionFactory) {
             session.beginTransaction();
 
-            Item item = session.get(Item.class, 1);
-            System.out.println("Получили и товар");
+            Person person = session.get(Person.class, 6);
+            System.out.println("Получили и Человека");
 
-            // EAGER - не ленивая загрузка
-            System.out.println(item.getOwner());
+            System.out.println(person);
+
+            // Специальный метод в Hibernate для того чтобы проициализировать поле объекта
+            Hibernate.initialize(person.getItems());
 
             session.getTransaction().commit();
+
+            System.out.println("вне сессии");
+            // Теперь мы можем достать это поле в состояни Detached. После закрытия сессии
+            System.out.println(person.getItems());
 
         }
     }
