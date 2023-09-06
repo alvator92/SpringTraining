@@ -27,12 +27,11 @@ public class StartApp {
         try (sessionFactory) {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 6);
-            System.out.println("Получаем человека");
+            Item item = session.get(Item.class, 1);
+            System.out.println("Получили и товар");
 
-            // LAZY получение списка людей после запроса списка
-            // в рамках текущей сессии
-            System.out.println(person.getItems());
+            // EAGER - не ленивая загрузка
+            System.out.println(item.getOwner());
 
             session.getTransaction().commit();
 

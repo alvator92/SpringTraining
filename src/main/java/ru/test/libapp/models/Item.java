@@ -13,7 +13,7 @@ public class Item {
     @Column(name = "item_name")
     private String itemName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
 
