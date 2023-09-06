@@ -31,15 +31,26 @@ public class StartApp {
             Person person = session.get(Person.class, 6);
             System.out.println("Получили и Человека");
 
+            // взяи только данные этого человека - без товаров которые он приобрел
             System.out.println(person);
 
-            // Специальный метод в Hibernate для того чтобы проициализировать поле объекта
+            // закрыли сессию.
+            session.getTransaction().commit();
+
+            // для дальнейшего исползования надо взять новую сессиию
+            session = sessionFactory.getCurrentSession();
+            session.beginTransaction();
+
+            // надо приМерджить этого человека к текущей сессии
+            person =(Person) session.merge(person);
+
+            //инициализируем список который у нас не был ранее подгружен из-за LAZY
             Hibernate.initialize(person.getItems());
 
             session.getTransaction().commit();
 
             System.out.println("вне сессии");
-            // Теперь мы можем достать это поле в состояни Detached. После закрытия сессии
+            // Теперь мы можем достать это поле в состояни Detached. После закрытия второй сессии
             System.out.println(person.getItems());
 
         }
