@@ -27,12 +27,12 @@ public class StartApp {
         try (sessionFactory) {
             session.beginTransaction();
 
-            Actor actor = session.get(Actor.class, 8);
+            Person person = session.get(Person.class, 6);
+            System.out.println("Получаем человека");
 
-            Movie movieToRemove = actor.getMovies().get(0);
-
-            actor.getMovies().remove(0);
-            movieToRemove.getActors().remove(actor);
+            // LAZY получение списка людей после запроса списка
+            // в рамках текущей сессии
+            System.out.println(person.getItems());
 
             session.getTransaction().commit();
 

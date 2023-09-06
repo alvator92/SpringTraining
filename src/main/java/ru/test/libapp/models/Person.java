@@ -28,7 +28,7 @@ public class Person {
     @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}", message = "Your adress should be in this format - Russia, Moscow, 123456")
     private String address;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<Item> items;
 
     public Person() {
