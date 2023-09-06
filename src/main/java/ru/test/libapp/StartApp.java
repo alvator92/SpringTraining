@@ -27,14 +27,12 @@ public class StartApp {
         try (sessionFactory) {
             session.beginTransaction();
 
-            Movie newMovie = new Movie("Dogs", 1989);
-            Actor actor2 = session.get(Actor.class, 1);
+            Actor actor = session.get(Actor.class, 8);
 
-            newMovie.setActors(new ArrayList<>(Collections.singletonList(actor2)));
+            Movie movieToRemove = actor.getMovies().get(0);
 
-            actor2.getMovies().add(newMovie);
-
-            session.save(newMovie);
+            actor.getMovies().remove(0);
+            movieToRemove.getActors().remove(actor);
 
             session.getTransaction().commit();
 

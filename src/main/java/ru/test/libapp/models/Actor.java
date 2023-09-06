@@ -5,6 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Actor")
@@ -70,6 +71,21 @@ public class Actor {
 
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Actor that = (Actor) o;
+
+        return this.id == that.id && this.age == that.age && Objects.equals(this.name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.name, this.age);
     }
 
     @Override
