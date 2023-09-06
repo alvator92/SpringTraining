@@ -41,8 +41,9 @@ public class StartApp {
             session = sessionFactory.getCurrentSession();
             session.beginTransaction();
 
-            // надо приМерджить этого человека к текущей сессии
-            person =(Person) session.merge(person);
+            // можно использовать HQL
+            List<Item> list = session.createQuery("select i from Item i where i.owner.id=:personId",
+                    Item.class).setParameter("personId", person.getId()).getResultList();
 
             //инициализируем список который у нас не был ранее подгружен из-за LAZY
             Hibernate.initialize(person.getItems());
